@@ -18,18 +18,31 @@ st.title("📊 Academic Performance XAI Dashboard")
 st.markdown("### Enhancing Student Metacognition Through Explainable AI")
 
 # =====================================================
-# LOAD MODEL
+# MODEL LOADING (SAFE)
 # =====================================================
 
 @st.cache_resource
 def load_model():
     model_path = "best_model.pkl"
-    if not os.path.exists(model_path):
-        st.error("Model file not found.")
-        st.stop()
-    return joblib.load(model_path)
+
+    try:
+        if not os.path.exists(model_path):
+            st.error("❌ Model file not found in repository.")
+            return None
+
+        model = joblib.load(model_path)
+        return model
+
+    except Exception as e:
+        st.error("⚠️ Model failed to load.")
+        st.exception(e)
+        return None
+
 
 model = load_model()
+
+if model is None:
+    st.stop()
 
 # =====================================================
 # SIDEBAR
@@ -357,4 +370,5 @@ if uploaded_file is not None:
         st.write(str(e))
 
 else:
+
     st.info("Upload a dataset to begin.")
