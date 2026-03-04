@@ -4,6 +4,7 @@ numpy==1.26.4
 scikit-learn==1.6.1
 xgboost==1.7.6
 shap==0.44.1
+numba==0.58.1
 matplotlib==3.8.4
 seaborn==0.13.2
 plotly==5.22.0
